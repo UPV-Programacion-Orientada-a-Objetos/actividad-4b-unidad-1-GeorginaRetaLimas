@@ -61,3 +61,39 @@ Simulador2D<T>::~Simulador2D(){
     delete[] _grid;
     delete[] _fuentes;
 }
+
+// Redimensionamiento
+template <typename T>
+Simulador2D<T>::redimensionarGrid(int nuevaF, int nuevaC){
+    // Creamos la nueva Matriz
+    T **nuevaGrid = new T*[nuevasF];
+    for(int i = 0; i < nuevasF; i++){
+        nuevaGrid[i] = new T[nuevasC];
+
+        for(int j = 0; j < nuevasC; j ++){
+            nuevaGrid[i][j] = 0;
+        }
+    }
+
+    // Copiamos los datos, buscamos el indice menor para copiar
+    int filasCopiar = (filas < nuevasF) ? filas : nuevasF;
+    int columnasCopiar = (columnas < nuevasC) ? columnas : nuevasC;
+
+    // Pasamos los datos
+    for(int i = 0; i < filasCopiar; i++){
+        for(int j = 0; j < columnasCopiar; j ++){
+            nuevaGrid[i][j] = _grid[i][j];
+        }
+    }
+
+    // Liberamos la memoria
+    for(int i = 0; i < _filas; i++){
+        delete[] _grid[i];
+    }
+
+    delete[] _grid;
+
+    _grid = nuevaGrid;
+    _filas = nuevasF;
+    _columnas = nuevasC;
+}
